@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../../public/img/57589.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title><%= product.name %> - Noroff E-commerce</title>
+</head>
+
+<body style="background-color: rgba(128, 128, 128, 0.515);">
+
+  <!-- NAVBAR AND HEADLINE -->
+  <div class="container d-flex justify-content-center align-content-center">
+    <nav class="w-75" style="text-align: center; background-color: rgb(79, 74, 74); padding: 10px; border-radius: 20px; border:2px solid black; position: relative;">
+      <!-- NAVBAR TITLE -->
+      <div> 
+        <a id="brand-name" href="/" style="font-size: 50px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75); margin-right: auto;">Noroff E-commerce</a>
+      </div>
+
+      <!-- NAVBAR ITEMS -->
+      <div class="d-flex align-items-center justify-content-between position-relative w-100 px-4">
+        <a href="/products" class="btn btn-danger" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Products</a>
+        
+        <% if (locals.user) { %>
+          <div id="userField" class="d-flex align-items-center position-absolute start-50 translate-middle-x" style="cursor: pointer;">
+            <div class="profile-pic" style="width: 50px; height: 50px; border-radius: 50%; background-color: rgba(48, 7, 7, 0.423); border: 2px solid red; box-shadow: 0 0 20px red;"></div>
+            <span id="userProfile" class="btn btn-danger ms-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);"><%= user.username.toUpperCase() %></span>
+          </div>
+          
+          <div class="d-flex">
+            <a href="/cart" class="btn btn-danger me-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Cart</a>
+            <a href="/logout" class="btn btn-danger" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Logout</a>
+          </div>
+        <% } else { %>
+          <div class="ms-auto">
+            <a href="/login" class="btn btn-danger me-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Login</a>
+            <a href="/register" class="btn btn-danger" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Register</a>
+          </div>
+        <% } %>
+      </div>
+    </nav>
+  </div>
+
+
+  <div>
+    <div class="wallpaper-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden;">
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 90%;">
+        <img src="/img/wallpaper.png" alt="Background Wallpaper" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; z-index: -1; opacity: 0.7;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: border-box(rgba(128, 128, 128, 0.686), rgba(79, 74, 74, 0.6)); border-radius: 10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Detail -->
+  <div class="container mt-5 products-container">
+    <div class="container mb-4">
+      <a href="/products" class="btn btn-danger" style="color: red; border: 1px solid black; font-weight: Bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;"><i class="bi bi-arrow-left"></i> Back to Products</a>
+    </div>
+    
+    <div class="card" style="background-color: rgb(79, 74, 74); color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000; border-radius: 15px;">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-6 text-center">
+            <% if (product.imgUrl) { %>
+              <img src="<%= product.imgUrl %>" class="img-fluid rounded" alt="<%= product.name %>" style="max-height: 300px; object-fit: contain;">
+            <% } else { %>
+              <div class="bg-secondary text-white p-5 rounded">No Image Available</div>
+            <% } %>
+          </div>
+          <div class="col-md-6">
+            <h2><%= product.name %></h2>
+            
+            <p class="mb-1">
+              <% if (product.brand && product.brand.name) { %>
+                <span class="badge bg-secondary"><%= product.brand.name %></span>
+              <% } %>
+              <% if (product.category && product.category.name) { %>
+                <span class="badge bg-secondary"><%= product.category.name %></span>
+              <% } %>
+            </p>
+            
+            <p><%= product.description %></p>
+            
+            <div class="mb-3">
+              <h3>$<%= product.price.toFixed(2) %></h3>
+              <p><small><%= product.quantity > 0 ? 'In Stock' : 'Out of Stock' %></small></p>
+            </div>
+            
+            <div class="d-flex align-items-center mb-3">
+              <label for="quantity" class="form-label me-2 mb-0">Quantity:</label>
+              <input type="number" class="form-control" id="quantity" min="1" max="<%= product.quantity %>" value="1" style="width: 70px; color: red; background-color: rgba(128, 128, 128, 0.515); border: 1px solid black;">
+            </div>
+            
+            <button class="btn btn-danger add-to-cart" data-product-id="<%= product.id %>" style="color: red; border: 1px solid black; font-weight: Bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+              Add to Cart
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Add to cart functionality
+      const addToCartBtn = document.querySelector('.add-to-cart');
+      if (addToCartBtn) {
+        addToCartBtn.addEventListener('click', async function() {
+          const productId = this.getAttribute('data-product-id');
+          const quantity = parseInt(document.getElementById('quantity').value);
+          
+          try {
+            const response = await fetch('/cart/add', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                productId,
+                quantity
+              })
+            });
+            
+            const data = await response.json();
+            if (data.success) {
+              alert('Product added to cart!');
+            } else {
+              alert('Error adding product to cart');
+            }
+          } catch (error) {
+            console.error('Error:', error);
+            alert('Error adding product to cart');
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

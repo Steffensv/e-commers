@@ -1,0 +1,164 @@
+ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <title>Checkout</title>
+</head>
+<body style="background-color: rgba(128, 128, 128, 0.515);">
+  <div class="container d-flex justify-content-center mt-5 text-center">
+    <%- include('partials/navbar') %>
+  </div>
+
+  <div>
+    <div class="wallpaper-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden;">
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; height: 90%;">
+        <img src="/img/wallpaper.png" alt="Background Wallpaper" style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px; z-index: -1; opacity: 0.7;">
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: border-box(rgba(128, 128, 128, 0.686), rgba(79, 74, 74, 0.6)); border-radius: 10px;"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container mt-5">
+    <h1 style="font-size: 40px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Checkout</h1>
+    
+    <% if (typeof error !== 'undefined') { %>
+      <div class="alert alert-danger">
+        <%= error %>
+      </div>
+    <% } %>
+
+    <div class="row mt-4">
+      <!-- Shopping Cart Summary -->
+      <div class="col-md-6">
+        <div class="card" style="border-radius: 20px; background-color: rgb(79, 74, 74); color:red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">
+          <div class="card-header">
+            <h3>Order Summary</h3>
+          </div>
+          <div class="card-body" style="border-radius: 0 0 20px 20px; border: 1px solid black;">
+            <% if (cart && cart.items && cart.items.length > 0) { %>
+              <table class="table table-striped" style="color: red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% cart.items.forEach(item => { %>
+                    <tr>
+                      <td><%= item.name %></td>
+                      <td><%= item.quantity %></td>
+                      <td>$<%= item.price.toFixed(2) %></td>
+                      <td>$<%= item.total.toFixed(2) %></td>
+                    </tr>
+                  <% }); %>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                    <td><strong>$<%= cart.totalPrice.toFixed(2) %></strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            <% } else { %>
+              <p>Your cart is empty. Please add items before checkout.</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payment Information -->
+      <div class="col-md-6">
+        <div class="card" style="border-radius: 20px; background-color: rgb(79, 74, 74); color:red; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">
+          <div class="card-header">
+            <h3>Payment Information</h3>
+          </div>
+          <div class="card-body" style="border-radius: 0 0 20px 20px; border: 1px solid black;">
+            <form action="/checkout" method="POST">
+              <div class="mb-3">
+                <label for="cardName" class="form-label">Name on Card</label>
+                <input type="text" class="form-control" style="color: red; background-color: rgba(128, 128, 128, 0.515); border: 1px solid black; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;" id="cardName" name="cardName" required>
+              </div>
+              
+              <div class="mb-3">
+                <label for="cardNumber" class="form-label">Card Number</label>
+                <input type="text" class="form-control" style="color: red; background-color: rgba(128, 128, 128, 0.515); border: 1px solid black; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+                <small class="text-muted" style="color: white !important;">For testing, use a card number starting with 4111</small>
+              </div>
+              
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="expiry" class="form-label">Expiration Date</label>
+                  <input type="text" class="form-control" style="color: red; background-color: rgba(128, 128, 128, 0.515); border: 1px solid black; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;" id="expiry" name="expiry" placeholder="MM/YY" required>
+                </div>
+                <div class="col-md-6">
+                  <label for="cvv" class="form-label">CVV</label>
+                  <input type="text" class="form-control" style="color: red; background-color: rgba(128, 128, 128, 0.515); border: 1px solid black; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;" id="cvv" name="cvv" placeholder="123" required>
+                </div>
+              </div>
+              
+              <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-danger" style="color: red; border: 1px solid black; font-weight: Bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">
+                  Complete Purchase
+                </button>
+                <a href="/products" class="btn btn-secondary" style="color: white; border: 1px solid black; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">
+                  Continue Shopping
+                </a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <!-- Card validation script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cardNumberInput = document.getElementById('cardNumber');
+      const expiryInput = document.getElementById('expiry');
+      const cvvInput = document.getElementById('cvv');
+      
+      // Format card number as user types
+      cardNumberInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let formattedValue = '';
+        
+        for(let i = 0; i < value.length; i++) {
+          if(i > 0 && i % 4 === 0) {
+            formattedValue += ' ';
+          }
+          formattedValue += value[i];
+        }
+        
+        e.target.value = formattedValue.substring(0, 19);
+      });
+      
+      // Format expiry date as MM/YY
+      expiryInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^0-9]/gi, '');
+        
+        if(value.length > 2) {
+          value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        }
+        
+        e.target.value = value.substring(0, 5);
+      });
+      
+      // Limit CVV to 3 digits
+      cvvInput.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/[^0-9]/gi, '').substring(0, 3);
+      });
+    });
+  </script>
+</body>
+</html>

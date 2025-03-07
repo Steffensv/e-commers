@@ -1,0 +1,39 @@
+<!-- NAVBAR AND HEADLINE -->
+<div class="container d-flex justify-content-center align-content-center mt-5 text-center">
+  <nav class=" w-75" style="text-align: center; background-color: rgb(79, 74, 74); padding: 10px; border-radius: 20px; border:2px solid black; position: relative;">
+    <!-- NAVBAR TITLE -->
+    <div> 
+      <a id="brand-name" href="/" style="font-size: 50px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75); margin-right: auto;">Noroff E-commerce</a>
+    </div>
+
+    <!-- NAVBAR ITEMS -->
+    <div class="d-flex align-items-center justify-content-between position-relative w-100 px-4">
+      <a href="/products" class="btn btn-danger" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Products</a>
+      
+      <% if (user) { %>
+        <!-- Make this a clickable link instead of using JS -->
+        <div id="userField" class="d-flex align-items-center position-absolute start-50 translate-middle-x" style="cursor: pointer;">
+          <div class="profile-pic" style="width: 50px; height: 50px; border-radius: 50%; background-color: rgba(48, 7, 7, 0.423); border: 2px solid red; box-shadow: 0 0 20px red;"></div>
+          <a href="/dashboard" id="userProfile" class="btn btn-danger ms-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);"><%= user.username.toUpperCase() %></a>
+          <a href="/logout" class="btn btn-danger ms-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Logout</a>
+        </div>
+        
+        <div class="d-flex">
+          <a href="/cart" class="btn btn-danger me-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Cart</a>
+        </div>
+      <% } else { %>
+        <div class="ms-auto">
+          <a href="/login" class="btn btn-danger me-2" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Login</a>
+          <a href="/register" class="btn btn-danger" style="border:1px solid black; border-radius:20px; color: red; text-decoration: solid; font-weight: bold; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000, 2px 2px 5px rgb(75, 75, 75);">Register</a>
+        </div>
+      <% } %>
+    </div>
+  </nav>
+</div>
+
+<script>
+  document.getElementById('userField').addEventListener('click', function() {
+    // Navigate to the appropriate dashboard based on user role
+    window.location.href = '<% if (user && user.isAdmin) { %>admin/dashboard<% } else { %>user/dashboard<% } %>';
+  });
+</script>
